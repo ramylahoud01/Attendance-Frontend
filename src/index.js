@@ -4,8 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Provider } from "react-redux"
-import store from './Store';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const theme = createTheme({
@@ -32,9 +30,7 @@ const theme = createTheme({
 });
 root.render(
   <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App />
   </ThemeProvider>
 
 );
