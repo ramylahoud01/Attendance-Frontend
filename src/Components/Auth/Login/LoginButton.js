@@ -2,9 +2,9 @@ import { Button, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function LoginButton() {
+function LoginButton({ isLoading }) {
     return (
-        <Stack sx={{ margin: '10px 0px 20px 0px', display: 'flex', flexDirection: 'column', gap: '5px' }} >
+        <Stack sx={{ margin: '5px 0px 20px 0px', display: 'flex', flexDirection: 'column', gap: '5px' }} >
             <Link to="/" style={{ textDecoration: 'none' }}>
                 <Typography
                     sx={{
@@ -21,8 +21,8 @@ function LoginButton() {
                     Forgot password?
                 </Typography>
             </Link>
-            <Button variant='contained' type='submit'>
-                Sign In
+            <Button variant='contained' type='submit' disabled={isLoading}>
+                {isLoading ? 'Signing In' : 'Sign In'}
             </Button>
         </Stack>
     )

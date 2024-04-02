@@ -55,7 +55,7 @@ export default function Header(props) {
                             >
                                 HOME
                             </NavLink>
-                            <NavLink
+                            {isAuth && <NavLink
                                 to={`/employees/details`}
                                 style={({ isActive, isTransitioning }) => ({
                                     fontWeight: "bold",
@@ -68,7 +68,7 @@ export default function Header(props) {
                                 })}
                             >
                                 TEAM MEMBER
-                            </NavLink>
+                            </NavLink>}
                             <NavLink
                                 to={`/aboutUs`}
                                 style={({ isActive, isTransitioning }) => ({

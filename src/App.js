@@ -8,6 +8,8 @@ import { action as LogoutAction } from "./Pages/LogoutPage"
 import TimeTrackerPage from "./Pages/TimeTrackerPage";
 import AddEmployeePage from "./Pages/AddEmployeePage";
 import MapEmployeePage from "./Pages/MapEmployeePage";
+import AttendancePage from "./Pages/AttendancePage";
+import SchedulePage from "./Pages/SchedulePage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "/employees/details",
         element: <MapEmployeePage />
+      },
+      {
+        path: "/schedule/:EmployeeId",
+        element: <SchedulePage />
       }
     ]
   }
