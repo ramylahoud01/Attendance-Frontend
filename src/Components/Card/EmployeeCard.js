@@ -62,9 +62,9 @@ function EmployeeCard({ employee }) {
                         </Typography>
                     </Link>
                 </div>
-                <div style={{ margin: '5px 0px 0px 10px', position: 'absolute', right: 0 }}>
+                {/* <div style={{ margin: '5px 0px 0px 10px', position: 'absolute', right: 0 }}>
                     <img src={`data:image/png;base64,${employee.QRCodeID.Content}`} alt="QR Code" width='100px' height='100px'></img>
-                </div>
+                </div> */}
             </div>
             <Divider variant="middle" />
             <div style={{ display: "flex", flexDirection: "column", margin: '10px 15px', gap: '1px' }}>
