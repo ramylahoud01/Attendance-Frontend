@@ -12,8 +12,9 @@ import "./EntireTableSchedule.css"
 import { DisplayEmployeesFullNameandSchedule } from '../../../Services/Employee.service';
 import { generateMultiScheduleFromTable, generateScheduleFromTable } from '../../../Services/Schedule.service';
 import { adjustDateForTimezone } from '../../helpers/AdjustTime';
-import { Typography, Button, Checkbox, } from "@mui/material"
+import { Typography, Button, Checkbox } from "@mui/material"
 import EntireCalendar from '../../Calendar/EntireCalendar/EntireCalendar';
+import DilaogReport from './DilaogReport';
 
 export default function EntireTableSchedule() {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -34,6 +35,8 @@ export default function EntireTableSchedule() {
     const [calendarButtonSelected, setCalendarButtonSelected] = useState(true)
     const [scheduleButtonSelected, setScheduleButtonSelected] = useState(false)
     const [quickSearchButtonSelected, setQuickSearchButtonSelected] = useState(false)
+    const [openDialog, setOpenDialog] = useState(false)
+
     const getNext5Days = (selectedDate) => {
         const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const formattedDates = [];
@@ -74,6 +77,7 @@ export default function EntireTableSchedule() {
         }
         fetchRows()
     }, [])
+
     const selectedDay = (val) => {
         // const adjustedDate = adjustDateForTimezone(val)
         setSelectedDate(val)
@@ -191,89 +195,102 @@ export default function EntireTableSchedule() {
         setScheduleButtonSelected(false)
         setQuickSearchButtonSelected(true)
     }
-
+    const clickDialogReportHandler = () => {
+        setOpenDialog(true)
+    }
+    const handleClose = () => {
+        setOpenDialog(false)
+    }
     return (
-        <div style={{ padding: '20px 30px 40px 30px', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }} >
-                <Typography sx={calendarButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickCalendarButtonHandler}>Calendar</Typography>
-                <Typography sx={scheduleButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickScheduleButtonHandler}>Schedule</Typography>
-                <Typography sx={quickSearchButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickQuickSearchButtonHandler}>Quick Search</Typography>
-            </div>
-            {scheduleButtonSelected && <>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: 'white', borderTop: '1px solid #e0e0e0', borderLeft: '1px solid #e0e0e0', borderRight: '1px solid #e0e0e0', padding: '5px 15px' }} >
-                    <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>Schedule :</Typography>
-                    <div style={{ width: '395px', display: 'flex', alignItems: 'center', }}>
-                        <DatePicker
-                            getSelectedDay={selectedDay}
-                            selectDate={selectedDate}
-                            labelFormat={"MMMM"}
-                            color={"#2F4F4F"}
-                        />
-                    </div>
-                    <div style={{ display: 'flex', gap: '3px' }}>
-                        {PeriodArray.map((period, index) => <Button key={index} variant='contained' onClick={() => clickMultiPeriodHandler(period)} sx={{ fontSize: '12px' }}>{period}</Button>)}
-                    </div>
+        <>
+            <div style={{ padding: '20px 30px 40px 30px', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }} >
+                    <Typography sx={calendarButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickCalendarButtonHandler}>Calendar</Typography>
+                    <Typography sx={scheduleButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickScheduleButtonHandler}>Schedule</Typography>
+                    <Typography sx={quickSearchButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickQuickSearchButtonHandler}>Quick Search</Typography>
                 </div>
-                <div style={{ backgroundColor: 'white' }}>
-                    <TableContainer sx={{ maxHeight: 440 }}>
-                        <Table stickyHeader aria-label="sticky table" sx={{ borderCollapse: 'collapse' }}>
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map((column, columnIndex) => (
-                                        <TableCell
-                                            key={column.id}
-                                            align="center"
-                                            style={{ minWidth: column.minWidth, fontWeight: 'bold', border: '1px solid #e0e0e0' }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {rows.map((row, rowIndex) => (
-                                    <TableRow tabIndex={-1} key={rowIndex}>
-                                        {columns.map((column, columnIndex) => {
-                                            let dateFound = false;
-                                            return (
-                                                <TableCell key={column.id} align="center" style={{ border: '1px solid #e0e0e0', padding: '0px' }}
-                                                    onClick={() => clickCellHandler(row.id, column.id)}>
-                                                    {column.id !== 'FullName' ? (
-                                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                            {
-                                                                row.schedules && row.schedules.map(schedule => {
-                                                                    if (schedule.id === column.localStringDates) {
-                                                                        dateFound = true;
-                                                                        return <p key={schedule.id} style={{ marginLeft: '15px' }}>{schedule.date}</p>;
-                                                                    }
-                                                                    return null;
-                                                                })
-                                                            }
-                                                            {!dateFound &&
-                                                                <div style={{ display: 'flex', marginLeft: '15px' }}>
-                                                                    <Checkbox size='small' {...label} onClick={(event) => clickCheckBoxHandler(event, row.id, column.id)} />
-                                                                    <p > - - Select - - </p>
-                                                                </div>}
-                                                            <ArrowDateAvailable onChangeDate={changePeriodUsingArrowHandler} />
-                                                        </div>
-                                                    ) : (
-                                                        row.FullName
-                                                    )}
-                                                </TableCell>
-                                            );
-                                        })}
+                {scheduleButtonSelected && <>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: 'white', borderTop: '1px solid #e0e0e0', borderLeft: '1px solid #e0e0e0', borderRight: '1px solid #e0e0e0', padding: '5px 15px', justifyContent: 'space-between' }} >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', }} >
+                            <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>Schedule :</Typography>
+                            <div style={{ width: '395px', display: 'flex', alignItems: 'center', }}>
+                                <DatePicker
+                                    getSelectedDay={selectedDay}
+                                    selectDate={selectedDate}
+                                    labelFormat={"MMMM"}
+                                    color={"#2F4F4F"}
+                                />
+                            </div>
+                            <div style={{ display: 'flex', gap: '3px' }}>
+                                {PeriodArray.map((period, index) => <Button key={index} variant='contained' onClick={() => clickMultiPeriodHandler(period)} sx={{ fontSize: '12px' }}>{period}</Button>)}
+                            </div>
+                        </div>
+                        <div>
+                            <Button variant='contained' onClick={clickDialogReportHandler}>Reports</Button>
+                        </div>
+                    </div>
+                    <div style={{ backgroundColor: 'white' }}>
+                        <TableContainer sx={{ maxHeight: 440 }}>
+                            <Table stickyHeader aria-label="sticky table" sx={{ borderCollapse: 'collapse' }}>
+                                <TableHead>
+                                    <TableRow>
+                                        {columns.map((column, columnIndex) => (
+                                            <TableCell
+                                                key={column.id}
+                                                align="center"
+                                                style={{ minWidth: column.minWidth, fontWeight: 'bold', border: '1px solid #e0e0e0' }}
+                                            >
+                                                {column.label}
+                                            </TableCell>
+                                        ))}
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div></>}
-            {
-                calendarButtonSelected && <EntireCalendar />
-            }
-            {
-                quickSearchButtonSelected && <div>quickSearchButton</div>
-            }
-        </div >
+                                </TableHead>
+                                <TableBody>
+                                    {rows.map((row, rowIndex) => (
+                                        <TableRow tabIndex={-1} key={rowIndex}>
+                                            {columns.map((column, columnIndex) => {
+                                                let dateFound = false;
+                                                return (
+                                                    <TableCell key={column.id} align="center" style={{ border: '1px solid #e0e0e0', padding: '0px' }}
+                                                        onClick={() => clickCellHandler(row.id, column.id)}>
+                                                        {column.id !== 'FullName' ? (
+                                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                                {
+                                                                    row.schedules && row.schedules.map(schedule => {
+                                                                        if (schedule.id === column.localStringDates) {
+                                                                            dateFound = true;
+                                                                            return <p key={schedule.id} style={{ marginLeft: '15px' }}>{schedule.date}</p>;
+                                                                        }
+                                                                        return null;
+                                                                    })
+                                                                }
+                                                                {!dateFound &&
+                                                                    <div style={{ display: 'flex', marginLeft: '15px' }}>
+                                                                        <Checkbox size='small' {...label} onClick={(event) => clickCheckBoxHandler(event, row.id, column.id)} />
+                                                                        <p > - - Select - - </p>
+                                                                    </div>}
+                                                                <ArrowDateAvailable onChangeDate={changePeriodUsingArrowHandler} />
+                                                            </div>
+                                                        ) : (
+                                                            row.FullName
+                                                        )}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div></>}
+                {
+                    calendarButtonSelected && <EntireCalendar />
+                }
+                {
+                    quickSearchButtonSelected && <div>quickSearchButton</div>
+                }
+            </div>
+            <DilaogReport handleClose={handleClose} openDialog={openDialog} />
+        </>
     );
 }

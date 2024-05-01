@@ -29,7 +29,20 @@ export const DisplayEmployees = (RowsPerPage, query, page) => {
 }
 
 export const DisplayEmployeesFullNameandSchedule = () => {
-    return fetch(API_URL + `/Employee//displayFullNameAndSchedule`, {
+    return fetch(API_URL + `/Employee/displayFullNameAndSchedule`, {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .catch(error => {
+            console.error('Error occurred ', error.message);
+            throw error;
+        });
+}
+
+export const displayEmployeeForAutoComplete = (searchQuery) => {
+    return fetch(API_URL + `/Employee/auto-complete?searchQuery=${searchQuery}`, {
         method: 'Get',
         headers: {
             'Content-Type': 'application/json',

@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const theme = createTheme({
@@ -29,9 +31,11 @@ const theme = createTheme({
   },
 });
 root.render(
-  <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>
+  <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </LocalizationProvider>
 
 );
 reportWebVitals();
