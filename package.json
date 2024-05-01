@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@bitnoi.se/react-scheduler": "^0.1.5",
-    "@date-io/date-fns": "^3.0.0",
     "@devexpress/dx-react-scheduler": "^4.0.8",
     "@devexpress/dx-react-scheduler-material-ui": "^4.0.8",
     "@emotion/react": "^11.11.4",
