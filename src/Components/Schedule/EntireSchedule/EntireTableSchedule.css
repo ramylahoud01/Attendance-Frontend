@@ -1,3 +1,14 @@
+[class^="DatePicker_dateLabel"] {
+    font-size: 14px; 
+}
+
+[class^="DatePicker_monthYearLabel"] {
+    display: none;
+}
+[class^="DatePicker_button"] {
+    margin-bottom: 5px ;
+}
+/*
 .DatePicker_dateLabel__\+eSJ3 {
    font-size: 14px;
 }
@@ -7,3 +18,4 @@
 .DatePicker_monthYearLabel__g7m1j{
     display: none;
 }
+*/
