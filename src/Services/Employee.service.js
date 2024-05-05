@@ -27,3 +27,16 @@ export const DisplayEmployees = (RowsPerPage, query, page) => {
             throw error;
         });
 }
+
+export const DisplayEmployeesFullNameandSchedule = () => {
+    return fetch(API_URL + `/Employee//displayFullNameAndSchedule`, {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .catch(error => {
+            console.error('Error occurred ', error.message);
+            throw error;
+        });
+}

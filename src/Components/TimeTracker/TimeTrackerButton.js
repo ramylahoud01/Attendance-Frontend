@@ -6,7 +6,7 @@ function TimeTrackerButton({ title, color, onClick }) {
         onClick(true)
     }
     return (
-        <Button variant='contained' color={color} sx={{ color: 'white' }} onClick={clickHandler}>
+        <Button variant='contained' sx={{ backgroundColor: '#A9A9A9', color: 'white' }} color='tertiary' onClick={clickHandler} size='large'>
             {title}
         </Button>
     )

@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MapScheduleById, newSchedule, } from "../../../Services/Schedule.service";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
- 
+
 const MySchedule = () => {
     const { EmployeeId } = useParams();
     const [schedules, setSchedules] = useState(['']);
@@ -15,10 +15,9 @@ const MySchedule = () => {
     const [fromDate, setFromDate] = useState("")
     const [toDate, setToDate] = useState("")
     const handleDateSelect = (selectInfo) => {
-        const startWithoutOffset = selectInfo.startStr.replace(/\+\d+:\d+$/, '');
-        const endWithoutOffset = selectInfo.endStr.replace(/\+\d+:\d+$/, '');
-        setFromDate(startWithoutOffset);
-        setToDate(endWithoutOffset);
+        console.log('selectInfo', selectInfo)
+        setFromDate(selectInfo.startStr);
+        setToDate(selectInfo.endStr);
         setOpenDialog(true)
     };
 
@@ -39,6 +38,7 @@ const MySchedule = () => {
         };
         fetchSchedule();
     }, [EmployeeId]);
+    console.log(events)
     const addNewSchedule = async () => {
         const response = await newSchedule(EmployeeId, fromDate, toDate)
         const data = await response.json();
@@ -54,16 +54,18 @@ const MySchedule = () => {
         setToDate("")
     }
     return (
-        <div style={{ padding: '40px 30px 40px 30px' }}>
-            <FullCalendar
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, momentTimezonePlugin]}
-                initialView="timeGridWeek"
-                selectable={true}
-                select={handleDateSelect}
-                events={events}
-                allDaySlot={false}
-                timeZone="Asia/Beirut"
-            />
+        <>
+            <div style={{ padding: '40px 30px 40px 30px' }}>
+                <FullCalendar
+                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, momentTimezonePlugin]}
+                    initialView="timeGridWeek"
+                    selectable={true}
+                    select={handleDateSelect}
+                    events={events}
+                    allDaySlot={false}
+                    timeZone="Asia/Beirut"
+                />
+            </div>
             <Dialog open={openDialog} onClose={handleClose}>
                 <DialogTitle
                     fontSize="18px"
@@ -98,7 +100,7 @@ const MySchedule = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </>
     );
 };
 

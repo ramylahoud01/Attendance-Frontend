@@ -7,7 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import { Link, NavLink, useSubmit } from 'react-router-dom';
-import logo from "../Image/Logo.png"
+import logo from "../Image/Boulanger-Logo.png"
 import authHeader from '../../Services/isAuth.service';
 
 function HideOnScroll(props) {
@@ -38,7 +38,7 @@ export default function Header(props) {
                 <AppBar sx={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' }}>
                     <Toolbar style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <Link to="/" style={{ alignItems: 'center', textDecoration: 'none', display: 'flex', margin: 0, padding: 0, marginLeft: '30px' }}>
-                            <Typography component={'img'} variant='img' src={logo} alt="Logo" sx={{ width: { xs: '50px' }, height: { xs: '46px' }, display: 'inline-block' }} borderRadius={'50%'} />
+                            <Typography component={'img'} variant='img' src={logo} alt="Logo" sx={{ width: { xs: '120px' }, height: { xs: '46px' }, display: 'inline-block' }} borderRadius='2px' />
                         </Link>
                         <Typography sx={{ display: 'flex' }} variant='div'>
                             <NavLink

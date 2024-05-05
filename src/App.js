@@ -8,8 +8,9 @@ import { action as LogoutAction } from "./Pages/LogoutPage"
 import TimeTrackerPage from "./Pages/TimeTrackerPage";
 import AddEmployeePage from "./Pages/AddEmployeePage";
 import MapEmployeePage from "./Pages/MapEmployeePage";
-import AttendancePage from "./Pages/AttendancePage";
 import SchedulePage from "./Pages/SchedulePage";
+import ScheduleByIDPage from "./Pages/ScheduleByIDPage";
+import CalendarPage from "./Pages/CalendarPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -47,7 +48,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/schedule/:EmployeeId",
+        element: <ScheduleByIDPage />
+      },
+      {
+        path: '/entire/schedule',
         element: <SchedulePage />
+      },
+      {
+        path: '/entire/calendar',
+        element: <CalendarPage />
       }
     ]
   }

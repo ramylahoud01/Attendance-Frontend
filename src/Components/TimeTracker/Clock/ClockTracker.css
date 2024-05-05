@@ -1,0 +1,27 @@
+.react-clock__mark__number {
+    font-size: 16px; 
+    font-weight: bold;
+    color:white;
+}
+.react-clock__face{
+    box-shadow: 0 2px 30px rgba(255, 255, 255, 0.05);
+    color:white;
+    border-color: white;
+    border-width: 2.5px;
+}
+.react-clock__mark__body,
+.react-clock__hour-mark__body {
+    /* Your CSS styles here */
+    background-color:white
+    /* Other styles you want to apply */
+}
+.react-clock__mark, .react-clock__hour-mark{
+    background-color:white;
+    color: white
+}
+.react-clock__hand__body, .react-clock__hour-hand__body{
+    color: white;
+}
+.react-clock__hand__body{
+    background-color: white;
+}

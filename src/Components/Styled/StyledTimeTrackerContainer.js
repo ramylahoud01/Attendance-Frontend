@@ -1,18 +1,10 @@
-import { Typography } from '@mui/material'
 import React from 'react'
+import { Typography } from "@mui/material"
 
 function StyledTimeTrackerContainer({ children }) {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '60px', paddingBottom: '40px' }}>
-            <Typography component={'div'}
-                sx={{
-                    backgroundColor: 'white',
-                    display: 'flex',
-                    borderRadius: '10px',
-                    justifyContent: "center",
-                    boxShadow: '0 4px 8px rgba(170,170,170, 0.5)',
-                    padding: '20px 20px',
-                }}>
+        <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '100px', paddingTop: '100px' }}>
+            <Typography component={'div'} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: '10px', width: '1000px' }}>
                 {children}
             </Typography>
         </div >

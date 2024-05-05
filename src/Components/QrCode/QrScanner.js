@@ -1,16 +1,24 @@
 import { QrReader } from 'react-qr-reader';
 import { PunchInEmployee } from '../../Services/PunchIn.service';
+import { PunchOutEmployee } from '../../Services/PunchOut.service';
 
-const QrScanner = ({ open }) => {
+const QrScanner = ({ open, punchOut }) => {
     const handleError = error => {
         console.error('QR Scan Error:', error);
     };
     const onResult = async result => {
         if (result) {
-            console.log(result?.text)
-            const punchInResponse = await PunchInEmployee(result?.text)
-            const punchInData = await punchInResponse.json();
-            console.log('punchInData', punchInData)
+            if (!punchOut) {
+                console.log(result?.text)
+                const punchInResponse = await PunchInEmployee(result?.text)
+                const punchInData = await punchInResponse.json();
+                console.log('punchInData', punchInData)
+            } else {
+                console.log(result?.text)
+                const punchOutResponse = await PunchOutEmployee(result?.text)
+                const punchOutData = await punchOutResponse.json();
+                console.log('punchOutData', punchOutData)
+            }
         }
     };
     return (

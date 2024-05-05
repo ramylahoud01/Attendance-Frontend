@@ -3,7 +3,7 @@ import TimeTracker from '../Components/TimeTracker/TimeTracker'
 
 function TimeTrackerPage() {
     return (
-        <TimeTracker />
+        <div ><TimeTracker /></div>
     )
 }
 

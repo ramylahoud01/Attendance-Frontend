@@ -1,10 +1,10 @@
 import React from 'react'
-import MapSchedule from '../Components/Schedule/MapSchedule/MapSchedule'
+import MapEntireSchedule from '../Components/Schedule/EntireSchedule/MapEntireSchedule'
 
 function SchedulePage() {
     return (
         <div>
-            <MapSchedule />
+            <MapEntireSchedule />
         </div>
     )
 }
