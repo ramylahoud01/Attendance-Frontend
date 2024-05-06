@@ -2,12 +2,11 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import QrScanner from '../QrCode/QrScanner';
+import QrScanner from '../../QrCode/QrScanner';
 
 
-export default function PunchInDialog({ open, onClose }) {
+export default function BreakInDialog({ open, onClose }) {
 
     return (
         <React.Fragment>
@@ -18,18 +17,18 @@ export default function PunchInDialog({ open, onClose }) {
             >
                 <DialogTitle
                     color={"primary"}
-                    fontSize="20px"
+                    fontSize="24px"
                     display={"flex"}
                     justifyContent={"center"}
                     fontWeight={'bold'}
                 >
-                    {"Scan to Punch In"}
+                    {"Scan to Break In"}
                 </DialogTitle>
-                <DialogContent>
-                    <QrScanner open={open} />
-                </DialogContent>
+                <div style={{ padding: '0px 20px' }}>
+                    <QrScanner open={open} breakIn={true} />
+                </div>
                 <DialogActions>
-                    <Button onClick={onClose}>Cancel</Button>
+                    <Button onClick={onClose} variant='contained'>Close</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

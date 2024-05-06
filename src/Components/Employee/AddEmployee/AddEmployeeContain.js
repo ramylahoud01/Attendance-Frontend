@@ -63,7 +63,7 @@ function AddEmployeeContain({ retreiveRole, retreiveFirstName, retreiveLastName,
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <Typography variant='span' component={'span'} style={{ margin: '0 0 2px 0', padding: 0, color: '#2F4F4F', fontSize: '14px', fontFamily: 'bold' }}>Role<span style={{ color: '#8B0000', marginLeft: '3px' }} variant='span'>*</span></Typography>
-                    <StyledDropDown name={'Role'} onChange={changeRoleHandler} />
+                    <StyledDropDown name={'Role'} onChange={changeRoleHandler} backgroundColor={'#F5F5F5'} height={'45px'} />
                 </div>
             </Stack>
             <Stack direction={{ sm: "row", xs: 'column' }} style={{ display: 'flex', gap: '10px' }}>

@@ -1,13 +1,20 @@
-import { Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
+import { Autocomplete, Dialog, DialogActions, DialogTitle, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { displayEmployeeForAutoComplete } from '../../../Services/Employee.service'
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import "./DialogReport.css"
+import StyledDropDown from '../../Styled/StyledDropDown';
+import StyledButtonGroup from '../../Styled/StyledButtonGroup';
+
 
 function DilaogReport({ openDialog, handleClose }) {
     const [employees, setEmployees] = useState("")
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedEmployee, setSelectedEmployee] = useState("")
+    const [selectedDate, setSelectedDate] = useState([null, null])
+    const [role, setRole] = useState("")
+    const [scheduleReportsData, setScheduleReportsData] = useState()
+    const [emptyRole, setRoleToEmpty] = useState(false)
     useEffect(() => {
         const fetchEmployees = async () => {
             const response = await displayEmployeeForAutoComplete(searchQuery)
@@ -18,6 +25,7 @@ function DilaogReport({ openDialog, handleClose }) {
         }
         fetchEmployees()
     }, [searchQuery])
+
     const changeEmployeeHandler = (event, newValue) => {
         setSelectedEmployee(newValue)
     }
@@ -27,7 +35,23 @@ function DilaogReport({ openDialog, handleClose }) {
             licenseKeyDiv.style.display = 'none';
         }
     }, []);
-    console.log('searchQuery', searchQuery)
+    const changeRoleHandler = (value) => {
+        setSelectedEmployee("")
+        setRole(value)
+    }
+    const changeDatePickerHandler = (newValue) => {
+        setSelectedDate(newValue)
+    }
+    const resetHandler = () => {
+        setSelectedDate([null, null]);
+        setSelectedEmployee("")
+        setRoleToEmpty(true)
+        setRole("")
+        setScheduleReportsData("")
+    }
+    const updateRoleValueHandler = () => {
+        setRoleToEmpty(false)
+    }
     return (
         openDialog &&
         <Dialog
@@ -36,11 +60,11 @@ function DilaogReport({ openDialog, handleClose }) {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogTitle id="alert-dialog-title">
+            <DialogTitle style={{ textAlign: 'center', fontSize: '17px', fontWeight: 'bold' }}>
                 {"Please select your report filter"}
             </DialogTitle>
-            <DialogContent>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", justifyContent: "center", padding: '10px', width: '100%' }}>
+                <Stack direction={{ sm: "row", xs: "column" }} spacing={1}>
                     <Autocomplete
                         name="Employee"
                         id="filled-select-currency"
@@ -50,12 +74,13 @@ function DilaogReport({ openDialog, handleClose }) {
                         value={selectedEmployee || null}
                         onChange={changeEmployeeHandler}
                         onInputChange={(event, newInputValue) => { setSearchQuery(newInputValue) }}
+                        disabled={role !== ""}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
                                 label="Employee"
                                 size='small'
-                                sx={{ backgroundColor: 'white' }}
+                                sx={{ backgroundColor: 'white', width: { sm: '222.4px', xs: '100%' } }}
                             />
                         )}
                         renderOption={(props, user) => (
@@ -64,18 +89,29 @@ function DilaogReport({ openDialog, handleClose }) {
                             </Typography>
                         )}
                         noOptionsText={(searchQuery.length >= 2 && employees.length <= 0) ? "No options" : "Please enter at least one letters to search."}
+                        style={{ flex: 1 }}
                     />
+                    <StyledDropDown
+                        name={'Role'}
+                        onChange={changeRoleHandler}
+                        backgroundColor={'white'}
+                        height='100%'
+                        dialog={true}
+                        emptyRole={emptyRole}
+                        updateRoleValue={updateRoleValueHandler}
+                        disabled={selectedEmployee !== "" && selectedEmployee !== null}
+                    />
+                </Stack>
+                <div style={{ display: 'flex', width: '100%' }}>
                     <DateRangePicker
-                    // value={value}
-                    // onChange={(newValue) => setValue(newValue)}
+                        slotProps={{ textField: { size: 'small', sx: { width: '100%' } } }}
+                        value={selectedDate}
+                        onChange={changeDatePickerHandler}
                     />
                 </div>
-            </DialogContent>
+            </div>
             <DialogActions>
-                <Button onClick={handleClose}>Disagree</Button>
-                <Button onClick={handleClose} autoFocus>
-                    Agree
-                </Button>
+                <StyledButtonGroup scheduleReportsData={scheduleReportsData} reset={resetHandler} close={handleClose} selectedEmployee={selectedEmployee} role={role} selectedDate={selectedDate} />
             </DialogActions>
         </Dialog>
     )

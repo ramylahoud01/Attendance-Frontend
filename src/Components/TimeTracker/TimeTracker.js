@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import TimeTrackerButton from './TimeTrackerButton'
-import StyledTimeTrackerContainer from '../Styled/StyledTimeTrackerContainer'
-import PunchInDialog from './PunchInDialog'
-import PunchOutDialog from './PunchOutDialog'
+import PunchInDialog from './Dialog/PunchInDialog'
+import PunchOutDialog from './Dialog/PunchOutDialog'
 import ClockTracker from './Clock/ClockTracker'
+import ParticleBackground from '../Styled/ParticleBackground'
+import BreakInDialog from './Dialog/BreakInDialog'
+import BreakOutDialog from './Dialog/BreakOutDialog'
 function TimeTracker() {
     const [punchIn, setPunchIn] = useState(false)
     const [punchOut, setPunchOut] = useState(false)
     const [breakIn, setBreakIn] = useState(false)
-    const [breakOut, setbreakOut] = useState(false)
+    const [breakOut, setBreakOut] = useState(false)
 
-    console.log(punchIn, punchOut, breakIn, breakOut)
     const clickPunchInHandler = (value) => {
         setPunchIn(value)
     }
@@ -21,7 +22,7 @@ function TimeTracker() {
         setBreakIn(value)
     }
     const clickBreakOutHandler = (value) => {
-        setbreakOut(value)
+        setBreakOut(value)
     }
     const closePunchInHandler = () => {
         setPunchIn(false)
@@ -29,20 +30,39 @@ function TimeTracker() {
     const closePunchOutHandler = () => {
         setPunchOut(false)
     }
+    const closeBreakInHandler = () => {
+        setBreakIn(false)
+    }
+    const closeBreakOutHandler = () => {
+        setBreakOut(false)
+    }
     return (
-        <StyledTimeTrackerContainer>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderTopLeftRadius: '15px', borderTopRightRadius: '15px', background: '#FFAC1C', width: '100%', padding: '50px ' }}>
-                <ClockTracker />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '20px', backgroundColor: '#2F4F4F', borderBottomLeftRadius: '15px', borderBottomRightRadius: '15px', }}>
-                <TimeTrackerButton title={"PUNCH IN"} onClick={clickPunchInHandler} />
-                <TimeTrackerButton title={"PUNCH OUT"} onClick={clickPunchOutHandler} />
-                <TimeTrackerButton title={"BREAK IN"} onClick={clickBreakInHandler} />
-                <TimeTrackerButton title={"BREAK OUT"} onClick={clickBreakOutHandler} />
+        <>
+            <ParticleBackground id="particles" />
+            <div style={{
+                position: 'fixed',
+                top: '40%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                flexDirection: 'column',
+            }}>
+                <div>
+                    <ClockTracker />
+                </div>
+                <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
+                    <TimeTrackerButton title={"PUNCH IN"} onClick={clickPunchInHandler} />
+                    <TimeTrackerButton title={"PUNCH OUT"} onClick={clickPunchOutHandler} />
+                    <TimeTrackerButton title={"BREAK IN"} onClick={clickBreakInHandler} />
+                    <TimeTrackerButton title={"BREAK OUT"} onClick={clickBreakOutHandler} />
+                    <TimeTrackerButton title={"CHECK IN"} onClick={clickBreakOutHandler} />
+                </div>
             </div>
             <PunchInDialog open={punchIn} onClose={closePunchInHandler} />
             <PunchOutDialog open={punchOut} onClose={closePunchOutHandler} />
-        </StyledTimeTrackerContainer>
+            <BreakInDialog open={breakIn} onClose={closeBreakInHandler} />
+            <BreakOutDialog open={breakOut} onClose={closeBreakOutHandler} />
+        </>
     )
 }
 

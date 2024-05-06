@@ -53,12 +53,26 @@ export const generateMultiScheduleFromTable = (multiCheckBoxSelected, period) =>
             throw error;
         });
 }
-export const displayAllSchedule = () => {
-    return fetch(API_URL + '/Schedule/displayAll', {
+export const displayAllSchedule = (query) => {
+    return fetch(API_URL + `/Schedule/displayAll?query=${query}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
+    })
+        .catch(error => {
+            console.error('Error occurred ', error.message);
+            throw error;
+        });
+}
+
+export const displayScheduleforReports = (EmployeeID, Role, SelectedDate) => {
+    return fetch(API_URL + `/Schedule/reports`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ EmployeeID, Role, SelectedDate })
     })
         .catch(error => {
             console.error('Error occurred ', error.message);

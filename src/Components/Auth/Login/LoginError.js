@@ -3,7 +3,7 @@ import React from 'react';
 
 function LoginError({ errorMessage }) {
     return (
-        <div style={{ marginTop: '10px' }}>
+        <div style={{ marginTop: '10px', maxWidth: '300px' }}>
             {errorMessage &&
                 errorMessage.message.split(",").map((error, index) => (
                     <Typography key={index} variant="body1" color="error" sx={{ fontSize: '13px', fontWeight: 'bold', display: 'block' }}>

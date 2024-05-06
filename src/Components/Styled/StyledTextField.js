@@ -7,7 +7,7 @@ function StyledTextField({ placeholder, type, onChange, name, endAdornment }) {
     }
     return (
         <TextField
-            sx={{ backgroundColor: '#F5F5F5', width: { xs: '25ch', md: '30ch' } }}
+            sx={{ backgroundColor: '#F5F5F5', width: { xs: '25ch', md: '35ch' } }}
             placeholder={placeholder}
             type={type}
             inputProps={{

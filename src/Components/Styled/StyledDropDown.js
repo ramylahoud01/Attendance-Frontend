@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-function StyledDropDown({ onChange, name }) {
+function StyledDropDown({ onChange, name, backgroundColor, height, dialog, emptyRole, updateRoleValue, disabled }) {
     const [selectedValue, setSelectedValue] = useState("");
 
     const RoleValues = [
@@ -11,10 +11,18 @@ function StyledDropDown({ onChange, name }) {
     ];
 
     const changeHandler = (event) => {
+        if (updateRoleValue) {
+            updateRoleValue(event.target.value);
+        }
         const value = event.target.value;
         setSelectedValue(value);
         onChange(value);
     };
+    useEffect(() => {
+        if (emptyRole === true) {
+            setSelectedValue("")
+        }
+    }, [emptyRole])
 
     return (
         <FormControl sx={{ margin: 0, padding: 0 }} size="small">
@@ -22,8 +30,9 @@ function StyledDropDown({ onChange, name }) {
             <Select
                 labelId="demo-simple-select-label"
                 value={selectedValue}
-                sx={{ height: '45px', backgroundColor: '#F5F5F5', m: 0, p: 0, width: { xs: '25ch', md: '30ch' } }}
+                sx={{ height: { height }, backgroundColor: { backgroundColor }, m: 0, p: 0, width: !dialog ? { xs: '25ch', md: '35ch' } : { sm: '222.4px', xs: '100%' } }}
                 onChange={changeHandler}
+                disabled={disabled}
             >
                 {RoleValues.map((option, index) => (
                     <MenuItem key={index} value={option.value}>
@@ -31,7 +40,7 @@ function StyledDropDown({ onChange, name }) {
                     </MenuItem>
                 ))}
             </Select>
-        </FormControl>
+        </FormControl >
     );
 }
 

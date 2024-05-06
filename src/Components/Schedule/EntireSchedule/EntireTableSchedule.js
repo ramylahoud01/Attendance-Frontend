@@ -15,6 +15,7 @@ import { adjustDateForTimezone } from '../../helpers/AdjustTime';
 import { Typography, Button, Checkbox } from "@mui/material"
 import EntireCalendar from '../../Calendar/EntireCalendar/EntireCalendar';
 import DilaogReport from './DilaogReport';
+import StyledSearchQuery from '../../Styled/StyledSearchQuery';
 
 export default function EntireTableSchedule() {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -34,8 +35,8 @@ export default function EntireTableSchedule() {
     const [multiCheckBoxSelected, setMultiCheckBoxSelected] = useState([])
     const [calendarButtonSelected, setCalendarButtonSelected] = useState(true)
     const [scheduleButtonSelected, setScheduleButtonSelected] = useState(false)
-    const [quickSearchButtonSelected, setQuickSearchButtonSelected] = useState(false)
     const [openDialog, setOpenDialog] = useState(false)
+    const [query, setQuery] = useState("");
 
     const getNext5Days = (selectedDate) => {
         const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -58,7 +59,6 @@ export default function EntireTableSchedule() {
         }
         return { formattedDates, dates, localStringDates };
     };
-
     useEffect(() => {
         const { formattedDates, dates, localStringDates } = getNext5Days(selectedDate);
         const newColumns = [
@@ -72,7 +72,6 @@ export default function EntireTableSchedule() {
         const fetchRows = async () => {
             const response = await DisplayEmployeesFullNameandSchedule();
             const data = await response.json();
-            console.log('data', data)
             setRows(data)
         }
         fetchRows()
@@ -183,17 +182,10 @@ export default function EntireTableSchedule() {
     const clickCalendarButtonHandler = () => {
         setCalendarButtonSelected(true)
         setScheduleButtonSelected(false)
-        setQuickSearchButtonSelected(false)
     }
     const clickScheduleButtonHandler = () => {
         setCalendarButtonSelected(false)
         setScheduleButtonSelected(true)
-        setQuickSearchButtonSelected(false)
-    }
-    const clickQuickSearchButtonHandler = () => {
-        setCalendarButtonSelected(false)
-        setScheduleButtonSelected(false)
-        setQuickSearchButtonSelected(true)
     }
     const clickDialogReportHandler = () => {
         setOpenDialog(true)
@@ -201,13 +193,20 @@ export default function EntireTableSchedule() {
     const handleClose = () => {
         setOpenDialog(false)
     }
+    const retreiveQueryHandler = (retreivedQuery) => {
+        setQuery(retreivedQuery)
+    }
     return (
         <>
             <div style={{ padding: '20px 30px 40px 30px', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }} >
-                    <Typography sx={calendarButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickCalendarButtonHandler}>Calendar</Typography>
-                    <Typography sx={scheduleButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickScheduleButtonHandler}>Schedule</Typography>
-                    <Typography sx={quickSearchButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickQuickSearchButtonHandler}>Quick Search</Typography>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }} >
+                        <Typography sx={calendarButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickCalendarButtonHandler}>Calendar</Typography>
+                        <Typography sx={scheduleButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickScheduleButtonHandler}>Schedule</Typography>
+                    </div>
+                    {calendarButtonSelected && <div style={{ marginBottom: '4px' }}>
+                        <StyledSearchQuery retreiveQuery={retreiveQueryHandler} />
+                    </div>}
                 </div>
                 {scheduleButtonSelected && <>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: 'white', borderTop: '1px solid #e0e0e0', borderLeft: '1px solid #e0e0e0', borderRight: '1px solid #e0e0e0', padding: '5px 15px', justifyContent: 'space-between' }} >
@@ -218,6 +217,7 @@ export default function EntireTableSchedule() {
                                     getSelectedDay={selectedDay}
                                     selectDate={selectedDate}
                                     labelFormat={"MMMM"}
+                                    minDate={new Date(1900, 0, 1)}
                                     color={"#2F4F4F"}
                                 />
                             </div>
@@ -226,11 +226,11 @@ export default function EntireTableSchedule() {
                             </div>
                         </div>
                         <div>
-                            <Button variant='contained' onClick={clickDialogReportHandler}>Reports</Button>
+                            <Button variant='contained' onClick={clickDialogReportHandler} sx={{ fontSize: '12px' }}>Reports</Button>
                         </div>
                     </div>
                     <div style={{ backgroundColor: 'white' }}>
-                        <TableContainer sx={{ maxHeight: 440 }}>
+                        <TableContainer sx={{ maxHeight: 700 }}>
                             <Table stickyHeader aria-label="sticky table" sx={{ borderCollapse: 'collapse' }}>
                                 <TableHead>
                                     <TableRow>
@@ -283,12 +283,7 @@ export default function EntireTableSchedule() {
                             </Table>
                         </TableContainer>
                     </div></>}
-                {
-                    calendarButtonSelected && <EntireCalendar />
-                }
-                {
-                    quickSearchButtonSelected && <div>quickSearchButton</div>
-                }
+                {calendarButtonSelected && <EntireCalendar query={query} />}
             </div>
             <DilaogReport handleClose={handleClose} openDialog={openDialog} />
         </>

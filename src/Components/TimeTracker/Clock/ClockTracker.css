@@ -11,9 +11,7 @@
 }
 .react-clock__mark__body,
 .react-clock__hour-mark__body {
-    /* Your CSS styles here */
     background-color:white
-    /* Other styles you want to apply */
 }
 .react-clock__mark, .react-clock__hour-mark{
     background-color:white;

@@ -7,21 +7,21 @@ import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import { displayAllSchedule } from '../../../Services/Schedule.service';
 import "./EntireCalendar.css"
 import { Typography } from '@mui/material';
-function EntireCalendar() {
+function EntireCalendar({ query }) {
     const [schedules, setSchedules] = useState([])
     const PunchedStatus = [
         { title: 'OFF', value: 'OFF' }, { title: 'Late', value: 'late' }, { title: 'Leaving Early', value: 'LeavingEarly' }, { title: 'on Time', value: 'onTime' }, { title: 'Late & Leaving Early', value: 'lateAndLeavingEarly' },
     ]
     useEffect(() => {
         const fetchSchedules = async () => {
-            const response = await displayAllSchedule()
+            const response = await displayAllSchedule(query)
             const data = await response.json()
             if (response.ok) {
                 setSchedules(data.foundSchedules)
             }
         }
         fetchSchedules()
-    }, [])
+    }, [query])
 
     const events = schedules.map(schedule => ({
         title: `${schedule.EmployeeID.FirstName} ${schedule.EmployeeID.LastName}`,
@@ -30,8 +30,6 @@ function EntireCalendar() {
         PunchStatus: schedule.PunchStatus
     }));
 
-
-    console.log('schedules', schedules)
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div style={{ backgroundColor: 'white', }}>

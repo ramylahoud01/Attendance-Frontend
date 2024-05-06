@@ -10,22 +10,22 @@ function ClockTracker() {
     useEffect(() => {
         const interval = setInterval(() => {
             setDate(new Date());
-        }, 1000); // Update every second
+        }, 1000); 
 
-        return () => clearInterval(interval); // Clean up interval on unmount
+        return () => clearInterval(interval); 
     }, []);
     let month = months[date.getMonth()];
     let day = days[date.getDay()]
     return (
-        <div className="clock-container" style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-evenly' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', borderRadius: '30px', padding: '40px 100px', alignItems: 'center', width: '100%', gap: '30px', marginBottom: '20px', backgroundColor: 'rgba(1,1,1,0.5)' }}>
             <Clock
                 value={date}
                 renderNumbers={true}
-                size={250}
+                size={200}
                 hourHandLength={90}
                 renderMinuteMarks={false}
             />
-            <Typography sx={{ color: 'white', fontWeight: 'bold', fontSize: '24px' }}>
+            <Typography sx={{ color: 'white', fontWeight: 'bold', fontSize: '30px' }}>
                 {day}, {month} {date.getDate()} ,{date.getFullYear()}
             </Typography>
         </div>

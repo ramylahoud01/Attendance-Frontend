@@ -69,8 +69,8 @@ export default function Header(props) {
                             >
                                 TEAM MEMBER
                             </NavLink>}
-                            <NavLink
-                                to={`/aboutUs`}
+                            {isAuth && <NavLink
+                                to={`/entire/schedule`}
                                 style={({ isActive, isTransitioning }) => ({
                                     fontWeight: "bold",
                                     color: isActive ? '	#2F4F4F' : '#A9A9A9',
@@ -81,8 +81,22 @@ export default function Header(props) {
                                     fontFamily: 'Helvetica, Arial, sans-serif'
                                 })}
                             >
-                                ABOUT US
-                            </NavLink>
+                                SCHEDULE
+                            </NavLink>}
+                            {isAuth && <NavLink
+                                to={`/timetrack`}
+                                style={({ isActive, isTransitioning }) => ({
+                                    fontWeight: "bold",
+                                    color: isActive ? '	#2F4F4F' : '#A9A9A9',
+                                    viewTransitionName: isTransitioning ? "slide" : "",
+                                    textDecoration: "none",
+                                    marginRight: "30px",
+                                    fontSize: '14px',
+                                    fontFamily: 'Helvetica, Arial, sans-serif'
+                                })}
+                            >
+                                TIME TRACK
+                            </NavLink>}
                             <NavLink
                                 to={!isAuth ? '/login' : '/'}
                                 style={({ isActive, isTransitioning }) => ({
