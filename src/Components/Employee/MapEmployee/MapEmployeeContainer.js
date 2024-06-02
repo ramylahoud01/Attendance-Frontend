@@ -2,19 +2,22 @@ import { useEffect, useState } from "react";
 import { DisplayEmployees } from "../../../Services/Employee.service";
 import { Grid, Typography } from "@mui/material";
 import EmployeeCard from "../../Card/EmployeeCard";
+import FallBack from "../../FallBack/FallBack";
 
 function MapEmployeeContainer({ query, retreiveTotalEmployee, rowsPerPage, page }) {
     const [employees, setEmployees] = useState([]);
-
+    const [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
         const fetchEmployee = async () => {
             try {
+                setIsLoading(true)
                 const response = await DisplayEmployees(rowsPerPage, query, page);
                 if (response.ok) {
                     const employeesData = await response.json();
                     retreiveTotalEmployee(employeesData.TotalEmployee)
                     setEmployees(employeesData.employees);
                 }
+                setIsLoading(false)
             } catch (error) {
                 console.log(error);
             }
@@ -56,6 +59,7 @@ function MapEmployeeContainer({ query, retreiveTotalEmployee, rowsPerPage, page 
                     No employees found.
                 </Typography>
             )}
+            {isLoading && <FallBack />}
         </>
     );
 }

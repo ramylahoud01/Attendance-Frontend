@@ -30,7 +30,7 @@ function StyledDropDown({ onChange, name, backgroundColor, height, dialog, empty
             <Select
                 labelId="demo-simple-select-label"
                 value={selectedValue}
-                sx={{ height: { height }, backgroundColor: { backgroundColor }, m: 0, p: 0, width: !dialog ? { xs: '25ch', md: '35ch' } : { sm: '222.4px', xs: '100%' } }}
+                sx={{ height: { height }, backgroundColor: { backgroundColor }, m: 0, p: 0, width: !dialog ? { xs: '25ch', md: '35ch' } : { sm: '210.23px', xs: '100%' } }}
                 onChange={changeHandler}
                 disabled={disabled}
             >

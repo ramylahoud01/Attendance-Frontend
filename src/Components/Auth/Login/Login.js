@@ -29,7 +29,7 @@ function Login() {
             const data = await response.json();
             const token = data?.token
             Cookies.set('token', token, { expires: 3 });
-            return navigate('/')
+            return navigate('/entire/schedule')
         }
         const error = await response.json();
         setError(error)

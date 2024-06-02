@@ -52,11 +52,17 @@ function DilaogReport({ openDialog, handleClose }) {
     const updateRoleValueHandler = () => {
         setRoleToEmpty(false)
     }
+    const handleCloseAndReset = () => {
+        handleClose()
+        setSelectedDate([null, null])
+        setRole("")
+        setSelectedEmployee("")
+    }
     return (
         openDialog &&
         <Dialog
             open={openDialog}
-            onClose={handleClose}
+            onClose={handleCloseAndReset}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
@@ -80,7 +86,7 @@ function DilaogReport({ openDialog, handleClose }) {
                                 {...params}
                                 label="Employee"
                                 size='small'
-                                sx={{ backgroundColor: 'white', width: { sm: '222.4px', xs: '100%' } }}
+                                sx={{ backgroundColor: 'white', width: { sm: '210.23px', xs: '100%' } }}
                             />
                         )}
                         renderOption={(props, user) => (
@@ -109,6 +115,7 @@ function DilaogReport({ openDialog, handleClose }) {
                         onChange={changeDatePickerHandler}
                     />
                 </div>
+
             </div>
             <DialogActions>
                 <StyledButtonGroup scheduleReportsData={scheduleReportsData} reset={resetHandler} close={handleClose} selectedEmployee={selectedEmployee} role={role} selectedDate={selectedDate} />

@@ -2,21 +2,21 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./Components/Home/Home";
 import Main from "./Components/Home/Main";
-import AboutUs from "./Components/AboutUs";
 import LoginPage from "./Pages/LoginPage";
 import { action as LogoutAction } from "./Pages/LogoutPage"
-import TimeTrackerPage from "./Pages/TimeTrackerPage";
-import AddEmployeePage from "./Pages/AddEmployeePage";
-import MapEmployeePage from "./Pages/MapEmployeePage";
-import SchedulePage from "./Pages/SchedulePage";
-import ScheduleByIDPage from "./Pages/ScheduleByIDPage";
-import CalendarPage from "./Pages/CalendarPage";
+import TimeTrackerPage, { loader as timetrackLoader } from "./Pages/TimeTrackerPage";
+import AddEmployeePage, { loader as newemployeeLoader } from "./Pages/AddEmployeePage";
+import MapEmployeePage, { loader as employeeLoader } from "./Pages/MapEmployeePage";
+import SchedulePage, { loader as allscheduleLoader } from "./Pages/SchedulePage";
+import ScheduleByIDPage, { loader as scheduleLoader } from "./Pages/ScheduleByIDPage";
+import CalendarPage, { loader as calenderLoader } from "./Pages/CalendarPage";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
     id: "root",
-    //errorElement: <Error />,  
+    // errorElement: <Error />,  
     children: [
       {
         path: "/login",
@@ -31,32 +31,34 @@ const router = createBrowserRouter([
         element: <Main />,
       },
       {
-        path: "/aboutUs",
-        element: <AboutUs />,
-      },
-      {
         path: '/timetrack',
-        element: <TimeTrackerPage />
+        element: <TimeTrackerPage />,
+        loader: timetrackLoader
       },
       {
         path: '/newEmployee',
-        element: <AddEmployeePage />
+        element: <AddEmployeePage />,
+        loader: newemployeeLoader
       },
       {
         path: "/employees/details",
-        element: <MapEmployeePage />
+        element: <MapEmployeePage />,
+        loader: employeeLoader
       },
       {
         path: "/schedule/:EmployeeId",
-        element: <ScheduleByIDPage />
+        element: <ScheduleByIDPage />,
+        loader: scheduleLoader
       },
       {
         path: '/entire/schedule',
-        element: <SchedulePage />
+        element: <SchedulePage />,
+        loader: allscheduleLoader
       },
       {
         path: '/entire/calendar',
-        element: <CalendarPage />
+        element: <CalendarPage />,
+        loader: calenderLoader
       }
     ]
   }

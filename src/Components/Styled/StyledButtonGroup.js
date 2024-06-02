@@ -33,29 +33,29 @@ export default function StyledButtonGroup({ reset, isLoading, selectedEmployee, 
         doc.addImage(Logo, "JPEG", imageX, 5, imgWidth, imgHeight);
         const header = [
             {
-                content: "Employee Name",
+                content: "Category",
                 styles: {
-                    halign: "start",
+                    halign: "center",
                     valign: "middle",
                     fillColor: ["#2F4F4F"],
                     textColor: [255, 255, 255],
-                    fontSize: 12,
+                    fontSize: 10,
                 },
             },
             {
-                content: "Full Date",
+                content: "Question",
                 styles: {
-                    halign: "start",
+                    halign: "center",
                     valign: "middle",
                     fillColor: ["#2F4F4F"],
                     textColor: [255, 255, 255],
-                    fontSize: 12,
+                    fontSize: 10,
                 },
             },
             {
                 content: "Shift work",
                 styles: {
-                    fontSize: 12,
+                    fontSize: 10,
                     halign: "center",
                     valign: "middle",
                     fillColor: ["#2F4F4F"],
@@ -65,7 +65,7 @@ export default function StyledButtonGroup({ reset, isLoading, selectedEmployee, 
             {
                 content: "Punch In",
                 styles: {
-                    fontSize: 12,
+                    fontSize: 10,
                     halign: "center",
                     valign: "middle",
                     fillColor: ["#2F4F4F"],
@@ -75,7 +75,27 @@ export default function StyledButtonGroup({ reset, isLoading, selectedEmployee, 
             {
                 content: "Punch Out",
                 styles: {
-                    fontSize: 12,
+                    fontSize: 10,
+                    halign: "center",
+                    valign: "middle",
+                    fillColor: ["#2F4F4F"],
+                    textColor: [255, 255, 255],
+                },
+            },
+            {
+                content: "Break In",
+                styles: {
+                    fontSize: 10,
+                    halign: "center",
+                    valign: "middle",
+                    fillColor: ["#2F4F4F"],
+                    textColor: [255, 255, 255],
+                },
+            },
+            {
+                content: "Break Out",
+                styles: {
+                    fontSize: 10,
                     halign: "center",
                     valign: "middle",
                     fillColor: ["#2F4F4F"],
@@ -85,7 +105,17 @@ export default function StyledButtonGroup({ reset, isLoading, selectedEmployee, 
             {
                 content: "Punch Status",
                 styles: {
-                    fontSize: 12,
+                    fontSize: 10,
+                    halign: "center",
+                    valign: "middle",
+                    fillColor: ["#2F4F4F"],
+                    textColor: [255, 255, 255],
+                },
+            },
+            {
+                content: "Work Hours",
+                styles: {
+                    fontSize: 10,
                     halign: "center",
                     valign: "middle",
                     fillColor: ["#2F4F4F"],
@@ -145,6 +175,26 @@ export default function StyledButtonGroup({ reset, isLoading, selectedEmployee, 
                 },
             },
             {
+                content: schedule.BreakIn,
+                rowSpan: 1,
+                colSpan: 1,
+                styles: {
+                    halign: "center",
+                    valign: "middle",
+                    fillColor: [255, 255, 255],
+                },
+            },
+            {
+                content: schedule.BreakOut,
+                rowSpan: 1,
+                colSpan: 1,
+                styles: {
+                    halign: "center",
+                    valign: "middle",
+                    fillColor: [255, 255, 255],
+                },
+            },
+            {
                 content: schedule.PunchStatus,
                 rowSpan: 1,
                 colSpan: 1,
@@ -153,7 +203,18 @@ export default function StyledButtonGroup({ reset, isLoading, selectedEmployee, 
                     valign: "middle",
                     fillColor: [255, 255, 255],
                 },
+            },
+            {
+                content: schedule.WorkTime,
+                rowSpan: 1,
+                colSpan: 1,
+                styles: {
+                    halign: "center",
+                    valign: "middle",
+                    fillColor: [255, 255, 255],
+                },
             }
+
         ]));
         autoTable(doc, {
             head: [header],
@@ -163,7 +224,7 @@ export default function StyledButtonGroup({ reset, isLoading, selectedEmployee, 
             styles: {
                 halign: "center",
                 valign: "middle",
-                fontSize: 10,
+                fontSize: 8,
                 cellPadding: 3,
                 textColor: [0, 0, 0],
                 cellBorder: "1px solid black",
@@ -183,7 +244,10 @@ export default function StyledButtonGroup({ reset, isLoading, selectedEmployee, 
             { header: 'Shift Work', key: 'Shiftwork', width: 20 },
             { header: 'Punch In', key: 'PunchIn', width: 20 },
             { header: 'Punch Out', key: 'PunchOut', width: 20 },
+            { header: 'Break In', key: 'BreakIn', width: 20 },
+            { header: 'Break Out', key: 'BreakOut', width: 20 },
             { header: 'Punch Status', key: 'PunchStatus', width: 20 },
+            { header: 'Work Hours', key: 'WorkTime', width: 20 },
         ];
         worksheet.columns = headers;
 
@@ -195,7 +259,10 @@ export default function StyledButtonGroup({ reset, isLoading, selectedEmployee, 
                 Shiftwork: row.Shiftwork,
                 PunchIn: row.PunchIn,
                 PunchOut: row.PunchOut,
+                BreakIn: row.BreakIn,
+                BreakOut: row.BreakOut,
                 PunchStatus: row.PunchStatus,
+                WorkTime: row.WorkTime
             });
         });
 

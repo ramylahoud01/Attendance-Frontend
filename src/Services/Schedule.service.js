@@ -79,3 +79,16 @@ export const displayScheduleforReports = (EmployeeID, Role, SelectedDate) => {
             throw error;
         });
 }
+export const displaySummaryScheduleforReports = (SelectedDate, EmployeeID, punchStatus) => {
+    console.log('EmployeeID', EmployeeID)
+    return fetch(API_URL + `/Schedule/display/summaryReport?SelectedDate=${SelectedDate}&EmployeeID=${EmployeeID}&punchStatus=${punchStatus}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .catch(error => {
+            console.error('Error occurred ', error.message);
+            throw error;
+        });
+}

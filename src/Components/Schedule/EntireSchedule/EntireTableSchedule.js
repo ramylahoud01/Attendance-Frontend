@@ -14,8 +14,9 @@ import { generateMultiScheduleFromTable, generateScheduleFromTable } from '../..
 import { adjustDateForTimezone } from '../../helpers/AdjustTime';
 import { Typography, Button, Checkbox } from "@mui/material"
 import EntireCalendar from '../../Calendar/EntireCalendar/EntireCalendar';
-import DilaogReport from './DilaogReport';
 import StyledSearchQuery from '../../Styled/StyledSearchQuery';
+import FallBack from '../../FallBack/FallBack';
+import SummaryReports from '../../Reports/SummaryReports';
 
 export default function EntireTableSchedule() {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -35,9 +36,9 @@ export default function EntireTableSchedule() {
     const [multiCheckBoxSelected, setMultiCheckBoxSelected] = useState([])
     const [calendarButtonSelected, setCalendarButtonSelected] = useState(true)
     const [scheduleButtonSelected, setScheduleButtonSelected] = useState(false)
-    const [openDialog, setOpenDialog] = useState(false)
+    const [reportsSummarySelected, setReportsSummarySelected] = useState(false)
     const [query, setQuery] = useState("");
-
+    const [isLoading, setIsLoading] = useState(false)
     const getNext5Days = (selectedDate) => {
         const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const formattedDates = [];
@@ -70,9 +71,13 @@ export default function EntireTableSchedule() {
 
     useEffect(() => {
         const fetchRows = async () => {
+            setIsLoading(true)
             const response = await DisplayEmployeesFullNameandSchedule();
             const data = await response.json();
-            setRows(data)
+            if (response.ok) {
+                setRows(data)
+            }
+            setIsLoading(false)
         }
         fetchRows()
     }, [])
@@ -90,10 +95,10 @@ export default function EntireTableSchedule() {
     }
     //Change Period using the arrow for a Date 
     const changePeriodUsingArrowHandler = async (value) => {
+        setIsLoading(true)
         const response = await generateScheduleFromTable(employeeSelected, dateSelected, value)
         const data = await response.json()
         if (response.ok) {
-
             setRows(oldRows => {
                 return oldRows.map(oldRow => {
                     if (oldRow.id === data.id) {
@@ -121,6 +126,7 @@ export default function EntireTableSchedule() {
                 )
             );
         }
+        setIsLoading(false)
     }
     //Click on the checkBox , push and pull into array multiCheckBoxSelected
     const clickCheckBoxHandler = (event, EmployeeID, dateSelected) => {
@@ -138,9 +144,9 @@ export default function EntireTableSchedule() {
     }
     // add all multiCheckBoxSelected array element to the rows
     const clickMultiPeriodHandler = async (period) => {
+        setIsLoading(true)
         const response = await generateMultiScheduleFromTable(multiCheckBoxSelected, period)
         const data = await response.json()
-        console.log('data', data)
         if (response.ok) {
             setRows(oldRows => {
                 return oldRows.map(oldRow => {
@@ -155,6 +161,7 @@ export default function EntireTableSchedule() {
             })
             setMultiCheckBoxSelected([])
         }
+        setIsLoading(false)
     }
     const typographyStyles = {
         primary: {
@@ -182,16 +189,17 @@ export default function EntireTableSchedule() {
     const clickCalendarButtonHandler = () => {
         setCalendarButtonSelected(true)
         setScheduleButtonSelected(false)
+        setReportsSummarySelected(false)
     }
     const clickScheduleButtonHandler = () => {
         setCalendarButtonSelected(false)
         setScheduleButtonSelected(true)
+        setReportsSummarySelected(false)
     }
-    const clickDialogReportHandler = () => {
-        setOpenDialog(true)
-    }
-    const handleClose = () => {
-        setOpenDialog(false)
+    const clickReportsSummaryButtonHandler = () => {
+        setCalendarButtonSelected(false)
+        setScheduleButtonSelected(false)
+        setReportsSummarySelected(true)
     }
     const retreiveQueryHandler = (retreivedQuery) => {
         setQuery(retreivedQuery)
@@ -203,89 +211,91 @@ export default function EntireTableSchedule() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }} >
                         <Typography sx={calendarButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickCalendarButtonHandler}>Calendar</Typography>
                         <Typography sx={scheduleButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickScheduleButtonHandler}>Schedule</Typography>
+                        <Typography sx={reportsSummarySelected ? typographyStyles.white : typographyStyles.primary} onClick={clickReportsSummaryButtonHandler}>Summary Reports</Typography>
                     </div>
                     {calendarButtonSelected && <div style={{ marginBottom: '4px' }}>
                         <StyledSearchQuery retreiveQuery={retreiveQueryHandler} />
                     </div>}
                 </div>
-                {scheduleButtonSelected && <>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: 'white', borderTop: '1px solid #e0e0e0', borderLeft: '1px solid #e0e0e0', borderRight: '1px solid #e0e0e0', padding: '5px 15px', justifyContent: 'space-between' }} >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', }} >
-                            <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>Schedule :</Typography>
-                            <div style={{ width: '395px', display: 'flex', alignItems: 'center', }}>
-                                <DatePicker
-                                    getSelectedDay={selectedDay}
-                                    selectDate={selectedDate}
-                                    labelFormat={"MMMM"}
-                                    minDate={new Date(1900, 0, 1)}
-                                    color={"#2F4F4F"}
-                                />
-                            </div>
-                            <div style={{ display: 'flex', gap: '3px' }}>
-                                {PeriodArray.map((period, index) => <Button key={index} variant='contained' onClick={() => clickMultiPeriodHandler(period)} sx={{ fontSize: '12px' }}>{period}</Button>)}
+                {scheduleButtonSelected &&
+                    <>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: 'white', borderTop: '1px solid #e0e0e0', borderLeft: '1px solid #e0e0e0', borderRight: '1px solid #e0e0e0', padding: '5px 15px', justifyContent: 'space-between' }} >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', }} >
+                                <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>Schedule :</Typography>
+                                <div style={{ width: '395px', display: 'flex', alignItems: 'center', }}>
+                                    <DatePicker
+                                        getSelectedDay={selectedDay}
+                                        selectDate={selectedDate}
+                                        labelFormat={"MMMM"}
+                                        color={"#2F4F4F"}
+                                    />
+                                </div>
+                                <div style={{ display: 'flex', gap: '3px' }}>
+                                    {PeriodArray.map((period, index) => <Button key={index} variant='contained' onClick={() => clickMultiPeriodHandler(period)} sx={{ fontSize: '12px' }}>{period}</Button>)}
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <Button variant='contained' onClick={clickDialogReportHandler} sx={{ fontSize: '12px' }}>Reports</Button>
-                        </div>
-                    </div>
-                    <div style={{ backgroundColor: 'white' }}>
-                        <TableContainer sx={{ maxHeight: 700 }}>
-                            <Table stickyHeader aria-label="sticky table" sx={{ borderCollapse: 'collapse' }}>
-                                <TableHead>
-                                    <TableRow>
-                                        {columns.map((column, columnIndex) => (
-                                            <TableCell
-                                                key={column.id}
-                                                align="center"
-                                                style={{ minWidth: column.minWidth, fontWeight: 'bold', border: '1px solid #e0e0e0' }}
-                                            >
-                                                {column.label}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {rows.map((row, rowIndex) => (
-                                        <TableRow tabIndex={-1} key={rowIndex}>
-                                            {columns.map((column, columnIndex) => {
-                                                let dateFound = false;
-                                                return (
-                                                    <TableCell key={column.id} align="center" style={{ border: '1px solid #e0e0e0', padding: '0px' }}
-                                                        onClick={() => clickCellHandler(row.id, column.id)}>
-                                                        {column.id !== 'FullName' ? (
-                                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                {
-                                                                    row.schedules && row.schedules.map(schedule => {
-                                                                        if (schedule.id === column.localStringDates) {
-                                                                            dateFound = true;
-                                                                            return <p key={schedule.id} style={{ marginLeft: '15px' }}>{schedule.date}</p>;
-                                                                        }
-                                                                        return null;
-                                                                    })
-                                                                }
-                                                                {!dateFound &&
-                                                                    <div style={{ display: 'flex', marginLeft: '15px' }}>
-                                                                        <Checkbox size='small' {...label} onClick={(event) => clickCheckBoxHandler(event, row.id, column.id)} />
-                                                                        <p > - - Select - - </p>
-                                                                    </div>}
-                                                                <ArrowDateAvailable onChangeDate={changePeriodUsingArrowHandler} />
-                                                            </div>
-                                                        ) : (
-                                                            row.FullName
-                                                        )}
-                                                    </TableCell>
-                                                );
-                                            })}
+                        <div style={{ backgroundColor: 'white' }}>
+                            <TableContainer sx={{ maxHeight: 700 }}>
+                                <Table /*stickyHeader*/ aria-label="sticky table" sx={{ borderCollapse: 'collapse' }}>
+                                    <TableHead>
+                                        <TableRow>
+                                            {columns.map((column, columnIndex) => (
+                                                <TableCell
+                                                    key={column.id}
+                                                    align="center"
+                                                    style={{ minWidth: column.minWidth, fontWeight: 'bold', border: '1px solid #e0e0e0' }}
+                                                >
+                                                    {column.label}
+                                                </TableCell>
+                                            ))}
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </div></>}
+                                    </TableHead>
+                                    <TableBody>
+                                        {rows.map((row, rowIndex) => (
+                                            <TableRow tabIndex={-1} key={rowIndex}>
+                                                {columns.map((column, columnIndex) => {
+                                                    let dateFound = false;
+                                                    return (
+                                                        <TableCell key={column.id} align="center" style={{ border: '1px solid #e0e0e0', padding: '0px' }}
+                                                            onClick={() => clickCellHandler(row.id, column.id)}>
+                                                            {column.id !== 'FullName' ? (
+                                                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                                    {
+                                                                        row.schedules && row.schedules.map(schedule => {
+                                                                            if (schedule.id === column.localStringDates) {
+                                                                                dateFound = true;
+                                                                                return <p key={schedule.id} style={{ marginLeft: '15px' }}>{schedule.date}</p>;
+                                                                            }
+                                                                            return null;
+                                                                        })
+                                                                    }
+                                                                    {!dateFound &&
+                                                                        <div style={{ display: 'flex', marginLeft: '15px' }}>
+                                                                            <Checkbox size='small' {...label} onClick={(event) => clickCheckBoxHandler(event, row.id, column.id)} />
+                                                                            <p > - - Select - - </p>
+                                                                        </div>}
+                                                                    <ArrowDateAvailable onChangeDate={changePeriodUsingArrowHandler} />
+                                                                </div>
+                                                            ) : (
+                                                                row.FullName
+                                                            )}
+                                                        </TableCell>
+                                                    );
+                                                })}
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
+                    </>}
                 {calendarButtonSelected && <EntireCalendar query={query} />}
+                {reportsSummarySelected &&
+                    <SummaryReports query={query} />
+                }
             </div>
-            <DilaogReport handleClose={handleClose} openDialog={openDialog} />
+            {isLoading && <FallBack />}
         </>
     );
 }

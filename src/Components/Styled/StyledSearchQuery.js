@@ -2,7 +2,7 @@ import { InputAdornment, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import SearchIcon from "@mui/icons-material/Search";
 
-function StyledSearchQuery({ retreiveQuery, }) {
+function StyledSearchQuery({ retreiveQuery }) {
     const [searchQuery, setSearchQuery] = useState("")
     const changeQueryHandler = (event) => {
         setSearchQuery(event.target.value)
