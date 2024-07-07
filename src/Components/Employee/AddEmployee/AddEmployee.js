@@ -16,6 +16,7 @@ function AddEmployee() {
     const [role, setRole] = useState('');
     const [salaryPerHour, setSalaryPerHour] = useState('');
     const [hoursPerWeek, setHoursPerWeek] = useState('');
+    const [file, setSelectedFile] = useState('')
     const [error, setError] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
@@ -48,10 +49,14 @@ function AddEmployee() {
     const retreiveHoursPerWeekHandler = (value) => {
         setHoursPerWeek(value);
     }
+
+    const retreiveImageHandler = (file) => {
+        setSelectedFile(file)
+    }
     const submitHandler = async (event) => {
         event.preventDefault();
         setIsLoading(true)
-        const response = await NewEmployee(firstName, lastName, email, password, jobTitle, role, salaryPerHour, hoursPerWeek)
+        const response = await NewEmployee(firstName, lastName, email, password, jobTitle, role, salaryPerHour, hoursPerWeek, file)
         if (response.ok) {
             setIsLoading(false)
             return navigate('/employees/details')
@@ -64,7 +69,7 @@ function AddEmployee() {
         <StyleFormContainer>
             <Form onSubmit={submitHandler} method='Post'>
                 <AddEmployeeHeader />
-                <AddEmployeeContain retreiveRole={retreiveRoleHandler} retreiveFirstName={retreiveFirstNameHandler} retreiveLastName={retreiveLastNameHandler} retreiveEmail={retreiveEmailHandler} retreivePassword={retreivePasswordHandler} retreiveJobTitle={retreiveJobTitleHandler} retreiveSalaryPerHour={retreiveSalaryPerHourHandler} retreiveHoursPerWeek={retreiveHoursPerWeekHandler} />
+                <AddEmployeeContain retreiveRole={retreiveRoleHandler} retreiveFirstName={retreiveFirstNameHandler} retreiveLastName={retreiveLastNameHandler} retreiveEmail={retreiveEmailHandler} retreivePassword={retreivePasswordHandler} retreiveJobTitle={retreiveJobTitleHandler} retreiveSalaryPerHour={retreiveSalaryPerHourHandler} retreiveHoursPerWeek={retreiveHoursPerWeekHandler} retreiveImage={retreiveImageHandler} />
                 <AddEmployeeError errorMessage={error} />
                 <AddEmployeeButton role={role} isLoading={isLoading} />
             </Form>

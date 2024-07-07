@@ -5,7 +5,6 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import jsPDF from 'jspdf'
 import Logo from "../Image/Boulanger-Logo.png"
 function EmployeeCard({ employee }) {
-    console.log('employee', employee)
     const typographyStyles = {
         fullName: {
             fontSize: "15px",

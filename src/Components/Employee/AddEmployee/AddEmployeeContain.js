@@ -2,8 +2,9 @@ import React from 'react'
 import StyledTextField from '../../Styled/StyledTextField'
 import { Stack, Typography } from '@mui/material'
 import StyledDropDown from '../../Styled/StyledDropDown'
+import EmployeeImageUploader from './EmployeeImageUploader/EmployeeImageUploader'
 
-function AddEmployeeContain({ retreiveRole, retreiveFirstName, retreiveLastName, retreiveEmail, retreivePassword, retreiveJobTitle, retreiveSalaryPerHour, retreiveHoursPerWeek }) {
+function AddEmployeeContain({ retreiveRole, retreiveFirstName, retreiveLastName, retreiveEmail, retreivePassword, retreiveJobTitle, retreiveSalaryPerHour, retreiveHoursPerWeek, retreiveImage }) {
     const changeFirstNameHandler = (value) => {
         retreiveFirstName(value);
     }
@@ -34,6 +35,9 @@ function AddEmployeeContain({ retreiveRole, retreiveFirstName, retreiveLastName,
     const changeHoursPerWeekHandler = (value) => {
         retreiveHoursPerWeek(value);
     }
+    const handleFileChange = (file) => {
+        retreiveImage(file);
+    };
     return (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px' }}>
             <Stack direction={{ sm: "row", xs: 'column' }} style={{ display: 'flex', gap: '10px' }}>
@@ -75,6 +79,14 @@ function AddEmployeeContain({ retreiveRole, retreiveFirstName, retreiveLastName,
                     <Typography variant='span' component={'span'} style={{ margin: '0 0 2px 0', padding: 0, color: '#2F4F4F', fontSize: '14px', fontFamily: 'bold' }}>Hours/Week<span style={{ color: '#8B0000', marginLeft: '3px' }} variant='span'>*</span></Typography>
                     <StyledTextField type={'number'} placeholder={'Hours/Week'} onChange={changeHoursPerWeekHandler} endAdornment={'hours'} />
                 </div>
+            </Stack>
+            <Stack>
+                <EmployeeImageUploader
+                    sx={{ width: "150px", height: "150px" }}
+                    getSelectedFile={handleFileChange}
+                    name={'csvFile'}
+                    isCSV={true}
+                />
             </Stack>
         </div>
     )

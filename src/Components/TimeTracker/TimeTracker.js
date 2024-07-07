@@ -6,11 +6,22 @@ import ClockTracker from './Clock/ClockTracker'
 import ParticleBackground from '../Styled/ParticleBackground'
 import BreakInDialog from './Dialog/BreakInDialog'
 import BreakOutDialog from './Dialog/BreakOutDialog'
+import RecognitionPunchInDialog from './Dialog/RecognitionPunchInDialog'
+import { Switch } from '@mui/material';
+import RecognitionPunchOutDialog from './Dialog/RecognitionPunchOutDialog'
+import RecognitionBreakInDialog from './Dialog/RecognitionBreakInDialog'
+import RecognitionBreakOutDialog from './Dialog/RecognitionBreakOutDialog'
+
 function TimeTracker() {
     const [punchIn, setPunchIn] = useState(false)
     const [punchOut, setPunchOut] = useState(false)
     const [breakIn, setBreakIn] = useState(false)
     const [breakOut, setBreakOut] = useState(false)
+    const [punchInRecognition, setPunchInRecognition] = useState(false)
+    const [punchOutRecognition, setPunchOutRecognition] = useState(false)
+    const [breakInRecognition, setBreakInRecognition] = useState(false)
+    const [breakOutRecognition, setBreakOutRecognition] = useState(false)
+    const [useFaceRecognition, setUseFaceRecognition] = useState(false)
 
     const clickPunchInHandler = (value) => {
         setPunchIn(value)
@@ -36,6 +47,35 @@ function TimeTracker() {
     const closeBreakOutHandler = () => {
         setBreakOut(false)
     }
+    const handlePunchInRecognition = () => {
+        setPunchInRecognition(true)
+    }
+    const handlePunchOutRecognition = () => {
+        setPunchOutRecognition(true)
+    }
+    const handleBreakInRecognition = () => {
+        setBreakInRecognition(true)
+    }
+    const handleBreakOutRecognition = () => {
+        setBreakOutRecognition(true)
+    }
+    const closePunchInRecognitionHandler = () => {
+        setPunchInRecognition(false)
+    }
+    const closePunchOutRecognitionHandler = () => {
+        setPunchOutRecognition(false)
+    }
+    const closeBreakInRecognitionHandler = () => {
+        setBreakInRecognition(false)
+    }
+    const closeBreakOutRecognitionHandler = () => {
+        setBreakOutRecognition(false)
+    }
+
+    const handleSwitchChange = () => {
+        setUseFaceRecognition(prev => !prev)
+    }
+
     return (
         <>
             <ParticleBackground id="particles" />
@@ -50,18 +90,48 @@ function TimeTracker() {
                 <div>
                     <ClockTracker />
                 </div>
-                <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
+                {/* <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
                     <TimeTrackerButton title={"PUNCH IN"} onClick={clickPunchInHandler} />
                     <TimeTrackerButton title={"PUNCH OUT"} onClick={clickPunchOutHandler} />
                     <TimeTrackerButton title={"BREAK IN"} onClick={clickBreakInHandler} />
                     <TimeTrackerButton title={"BREAK OUT"} onClick={clickBreakOutHandler} />
-                    <TimeTrackerButton title={"CHECK IN"} onClick={clickBreakOutHandler} />
-                </div>
+                    <div>
+                        <p style={{ padding: 0, margin: 0, color: 'white', marginLeft: '10px' }}>Face</p>
+                        <Switch checked={useFaceRecognition} onChange={handleSwitchChange} />
+                    </div>
+                </div> */}
+                {useFaceRecognition ? (
+                    <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
+                        <TimeTrackerButton title={"PUNCH IN"} onClick={handlePunchInRecognition} />
+                        <TimeTrackerButton title={"PUNCH OUT"} onClick={handlePunchOutRecognition} />
+                        <TimeTrackerButton title={"BREAK IN"} onClick={handleBreakInRecognition} />
+                        <TimeTrackerButton title={"BREAK OUT"} onClick={handleBreakOutRecognition} />
+                        <div style={{ backgroundColor: '#A9A9A9', padding: '5px 5px', borderRadius: '4px' }}>
+                            <span style={{ color: 'white', fontWeight: 'bold', }}>Face</span>
+                            <Switch checked={useFaceRecognition} onChange={handleSwitchChange} />
+                        </div>
+                    </div>
+                ) : (
+                    <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
+                        <TimeTrackerButton title={"PUNCH IN"} onClick={clickPunchInHandler} />
+                        <TimeTrackerButton title={"PUNCH OUT"} onClick={clickPunchOutHandler} />
+                        <TimeTrackerButton title={"BREAK IN"} onClick={clickBreakInHandler} />
+                        <TimeTrackerButton title={"BREAK OUT"} onClick={clickBreakOutHandler} />
+                        <div style={{ backgroundColor: '#A9A9A9', padding: '5px 5px', borderRadius: '4px' }}>
+                            <span style={{ color: 'white', fontWeight: 'bold', }}>Qr Code</span>
+                            <Switch checked={useFaceRecognition} onChange={handleSwitchChange} />
+                        </div>
+                    </div>
+                )}
             </div>
             <PunchInDialog open={punchIn} onClose={closePunchInHandler} />
             <PunchOutDialog open={punchOut} onClose={closePunchOutHandler} />
             <BreakInDialog open={breakIn} onClose={closeBreakInHandler} />
             <BreakOutDialog open={breakOut} onClose={closeBreakOutHandler} />
+            <RecognitionPunchInDialog open={punchInRecognition} onClose={closePunchInRecognitionHandler} />
+            <RecognitionPunchOutDialog open={punchOutRecognition} onClose={closePunchOutRecognitionHandler} />
+            <RecognitionBreakInDialog open={breakInRecognition} onClose={closeBreakInRecognitionHandler} />
+            <RecognitionBreakOutDialog open={breakOutRecognition} onClose={closeBreakOutRecognitionHandler} />
         </>
     )
 }

@@ -20,17 +20,18 @@ const QrScanner = ({ open, punchOut, punchIn, breakIn, breakOut, onClose, retrei
                 let response, data;
 
                 if (punchIn) {
-                    response = await PunchInEmployee(result?.text);
+                    response = await PunchInEmployee(result?.text, true);
                 } else if (punchOut) {
-                    response = await PunchOutEmployee(result?.text);
+                    response = await PunchOutEmployee(result?.text, true);
                 } else if (breakIn) {
-                    response = await BreakInEmployee(result?.text);
+                    response = await BreakInEmployee(result?.text, true);
                 } else if (breakOut) {
-                    response = await BreakOutEmployee(result?.text);
+                    response = await BreakOutEmployee(result?.text, true);
                 }
-
+                console.log('response', response)
                 if (response) {
                     data = await response.json();
+                    console.log('data', data)
                     if (response.ok) {
                         retreiveAlertValue('success', true, data?.message);
                     } else {

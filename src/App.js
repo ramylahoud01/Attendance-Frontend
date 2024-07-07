@@ -10,6 +10,7 @@ import MapEmployeePage, { loader as employeeLoader } from "./Pages/MapEmployeePa
 import SchedulePage, { loader as allscheduleLoader } from "./Pages/SchedulePage";
 import ScheduleByIDPage, { loader as scheduleLoader } from "./Pages/ScheduleByIDPage";
 import CalendarPage, { loader as calenderLoader } from "./Pages/CalendarPage";
+import Test from "./Components/Test";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
         path: '/entire/calendar',
         element: <CalendarPage />,
         loader: calenderLoader
+      },
+      {
+        path: '/test',
+        element: <Test />
       }
     ]
   }
