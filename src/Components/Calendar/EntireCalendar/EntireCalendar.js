@@ -7,7 +7,11 @@ import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import { displayAllSchedule } from '../../../Services/Schedule.service';
 import "./EntireCalendar.css"
 import { Typography } from '@mui/material';
+import { useTheme } from '@emotion/react';
+import { useMediaQuery } from '@mui/material';
 function EntireCalendar({ query }) {
+    const theme = useTheme();
+    const ExtraSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
     const [schedules, setSchedules] = useState([])
     const PunchedStatus = [
         { title: 'OFF', value: 'OFF' }, { title: 'Late', value: 'late' }, { title: 'Leaving Early', value: 'LeavingEarly' }, { title: 'on Time', value: 'onTime' }, { title: 'Late & Leaving Early', value: 'lateAndLeavingEarly' },
@@ -33,13 +37,30 @@ function EntireCalendar({ query }) {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div style={{ backgroundColor: 'white', }}>
-                <FullCalendar
+                {ExtraSmallScreen && <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, momentTimezonePlugin]}
                     selectable={true}
                     timeZone="Asia/Beirut"
                     events={events}
                     eventContent={eventContent}
-                />
+                    headerToolbar={{
+                        right: 'prev,next',
+                        left: 'title',
+                        // right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    }}
+                />}
+                {!ExtraSmallScreen && <FullCalendar
+                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, momentTimezonePlugin]}
+                    selectable={true}
+                    timeZone="Asia/Beirut"
+                    events={events}
+                    eventContent={eventContent}
+                // headerToolbar={{
+                //     right: 'prev,next',
+                //     left: 'title',
+                //     // right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                // }}
+                />}
             </div>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 {PunchedStatus.map((item, index) =>

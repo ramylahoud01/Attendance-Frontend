@@ -6,6 +6,7 @@ import Ecam from "../Image/Ecam.png"
 import MainCard from '../Card/MainCard'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { Typography } from '@mui/material'
 
 
 function Main() {
@@ -33,15 +34,19 @@ function Main() {
                     <MainCard key={index} title={card.title} image={card.image} inReverse={card.inReverse} />
                 </div>
             ))}
-            <div style={{ padding: '10px 50px', width: '100%', display: 'flex', justifyContent: 'end' }}>
+            <Typography sx={{ padding: '10px 50px', width: '100%', display: 'flex', justifyContent: { sm: 'end', xs: 'center' } }}>
                 <div >
-                    <p style={{ margin: 0, padding: 0, color: '#2F4F4F', fontSize: '12px', fontWeight: 'bold', fontStyle: 'italic' }}>  The project is led by both :  </p>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                        <img src={UniversityLaSagesse} alt="QrScan" width={'100px'} height={'100px'} style={{ borderRadius: '10px' }} />
-                        <img src={Ecam} alt="QrScan" width={'200px'} height={'100px'} style={{ borderRadius: '10px' }} />
-                    </div>
+                    <p style={{ margin: 0, padding: 0, color: '#2F4F4F', fontSize: '12px', fontWeight: 'bold', fontStyle: 'italic', justifyContent: 'center', display: 'flex' }}>  The project is led by both :  </p>
+                    <Typography sx={{ display: 'flex', gap: '10px', flexDirection: { xs: 'column', sm: 'row' } }}>
+                        <div style={{ justifyContent: 'center', display: 'flex' }}>
+                            <img src={Ecam} alt="QrScan" width={'200px'} height={'100px'} style={{ borderRadius: '10px' }} />
+                        </div>
+                        <div style={{ justifyContent: 'center', display: 'flex' }}>
+                            <img src={UniversityLaSagesse} alt="QrScan" width={'100px'} height={'100px'} style={{ borderRadius: '10px' }} />
+                        </div>
+                    </Typography>
                 </div>
-            </div>
+            </Typography>
         </div>
     )
 }

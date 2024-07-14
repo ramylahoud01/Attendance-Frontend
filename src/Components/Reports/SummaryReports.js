@@ -155,7 +155,7 @@ function SummaryReports() {
                                     ))}
                                 </TableBody>
                             ) : (
-                                <Typography sx={{ fontWeight: 'bold' }}>No Schedule Available</Typography>
+                                <Typography sx={{ fontWeight: 'bold', padding: '10px 8px' }}>No Schedule Available</Typography>
                             )
                         ) : (
                             <FallBack />
