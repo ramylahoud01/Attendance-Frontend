@@ -78,7 +78,7 @@ const MapEmployee = () => {
                         <div>
                             <StyledSearchQuery retreiveQuery={retreiveQueryHandler} />
                         </div>
-                        <Typography sx={{ display: 'flex', gap: '10px', flexDirection: { xs: 'column', md: 'row' } }}>
+                        <Typography sx={{ display: 'flex', gap: '10px', flexDirection: { xs: 'column', md: 'row' }, pb: { xs: '10px', md: '0px' } }}>
                             <div>
                                 <Button startIcon={<PersonAddAltIcon />} onClick={redirectButtonHandler} variant='outlined' style={{ fontWeight: 'bold' }}>
                                     New Member
