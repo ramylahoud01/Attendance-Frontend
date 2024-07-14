@@ -7,12 +7,18 @@ import ParticleBackground from '../Styled/ParticleBackground'
 import BreakInDialog from './Dialog/BreakInDialog'
 import BreakOutDialog from './Dialog/BreakOutDialog'
 import RecognitionPunchInDialog from './Dialog/RecognitionPunchInDialog'
-import { Switch } from '@mui/material';
+import { Switch, Typography } from '@mui/material';
 import RecognitionPunchOutDialog from './Dialog/RecognitionPunchOutDialog'
 import RecognitionBreakInDialog from './Dialog/RecognitionBreakInDialog'
 import RecognitionBreakOutDialog from './Dialog/RecognitionBreakOutDialog'
+import { useTheme } from '@emotion/react';
+import { useMediaQuery } from '@mui/material';
 
 function TimeTracker() {
+    const theme = useTheme();
+    const largeScreen = useMediaQuery(theme.breakpoints.up('lg'))
+    const smallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+    console.log('largeScreen', largeScreen)
     const [punchIn, setPunchIn] = useState(false)
     const [punchOut, setPunchOut] = useState(false)
     const [breakIn, setBreakIn] = useState(false)
@@ -87,9 +93,9 @@ function TimeTracker() {
                 display: 'flex',
                 flexDirection: 'column',
             }}>
-                <div>
-                    <ClockTracker />
-                </div>
+                {!smallScreen && <div>
+                    <ClockTracker largeScreen={largeScreen} smallScreen={smallScreen} />
+                </div>}
                 {/* <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
                     <TimeTrackerButton title={"PUNCH IN"} onClick={clickPunchInHandler} />
                     <TimeTrackerButton title={"PUNCH OUT"} onClick={clickPunchOutHandler} />
@@ -101,7 +107,7 @@ function TimeTracker() {
                     </div>
                 </div> */}
                 {useFaceRecognition ? (
-                    <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
+                    <Typography sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: '4px', justifyContent: 'center' }}>
                         <TimeTrackerButton title={"PUNCH IN"} onClick={handlePunchInRecognition} />
                         <TimeTrackerButton title={"PUNCH OUT"} onClick={handlePunchOutRecognition} />
                         <TimeTrackerButton title={"BREAK IN"} onClick={handleBreakInRecognition} />
@@ -110,18 +116,26 @@ function TimeTracker() {
                             <span style={{ color: 'white', fontWeight: 'bold', }}>Face</span>
                             <Switch checked={useFaceRecognition} onChange={handleSwitchChange} />
                         </div>
-                    </div>
+                    </Typography>
                 ) : (
-                    <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
+                    <Typography sx={{ display: 'flex', gap: '4px', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'center' }}>
                         <TimeTrackerButton title={"PUNCH IN"} onClick={clickPunchInHandler} />
                         <TimeTrackerButton title={"PUNCH OUT"} onClick={clickPunchOutHandler} />
                         <TimeTrackerButton title={"BREAK IN"} onClick={clickBreakInHandler} />
                         <TimeTrackerButton title={"BREAK OUT"} onClick={clickBreakOutHandler} />
-                        <div style={{ backgroundColor: '#A9A9A9', padding: '5px 5px', borderRadius: '4px' }}>
-                            <span style={{ color: 'white', fontWeight: 'bold', }}>Qr Code</span>
+                        <div style={{
+                            backgroundColor: '#A9A9A9',
+                            padding: '5px 5px',
+                            borderRadius: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <span style={{ color: 'white', fontWeight: 'bold', marginRight: '10px' }}>Qr Code</span>
                             <Switch checked={useFaceRecognition} onChange={handleSwitchChange} />
                         </div>
-                    </div>
+
+                    </Typography>
                 )}
             </div>
             <PunchInDialog open={punchIn} onClose={closePunchInHandler} />

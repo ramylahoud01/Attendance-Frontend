@@ -15,7 +15,6 @@ export const PunchOutEmployee = (Content, QrCode) => {
             'Content-Type': 'application/json',
         },
         body: requestBody
-
     })
         .catch(error => {
             console.error('Error occurred ', error.message);

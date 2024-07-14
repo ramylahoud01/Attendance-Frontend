@@ -52,8 +52,6 @@ const MapEmployee = () => {
             setDialogLoading(true)
             const response = await BulkInsertEmployee(formData);
             const data = await response.json();
-            console.log('response', response)
-            console.log('data', data)
             if (!response.ok) {
                 setDialogErrorMessage(data);
             } else {
@@ -68,29 +66,31 @@ const MapEmployee = () => {
 
     }
     const handleFileChange = (file) => {
-        console.log('file', file)
+
         setSelectedFile(file);
     };
     return (
         <>
             <div style={{ padding: '10px 30px 40px 30px', }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <MapEmployeeHeader title={'Meet Our Exceptional Team :'} />
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <MapEmployeeHeader title={'Meet Our Exceptional Team'} />
+                    <Typography sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', gap: '10px' }}>
                         <div>
                             <StyledSearchQuery retreiveQuery={retreiveQueryHandler} />
                         </div>
-                        <div>
-                            <Button startIcon={<PersonAddAltIcon />} onClick={redirectButtonHandler} variant='outlined' style={{ fontWeight: 'bold' }}>
-                                New Member
-                            </Button>
-                        </div>
-                        <div>
-                            <Button startIcon={<GroupAddIcon />} onClick={clickBulkHandler} variant='outlined' style={{ fontWeight: 'bold' }}>
-                                Bulk Insert
-                            </Button>
-                        </div>
-                    </div>
+                        <Typography sx={{ display: 'flex', gap: '10px', flexDirection: { xs: 'column', md: 'row' } }}>
+                            <div>
+                                <Button startIcon={<PersonAddAltIcon />} onClick={redirectButtonHandler} variant='outlined' style={{ fontWeight: 'bold' }}>
+                                    New Member
+                                </Button>
+                            </div>
+                            <div>
+                                <Button startIcon={<GroupAddIcon />} onClick={clickBulkHandler} variant='outlined' style={{ fontWeight: 'bold' }}>
+                                    Bulk Insert
+                                </Button>
+                            </div>
+                        </Typography>
+                    </Typography>
                 </div>
                 <MapEmployeeContainer query={query} retreiveTotalEmployee={retreiveTotalEmployeeHandler} rowsPerPage={rowsPerPage} page={page} />
                 <div style={{ display: 'flex', justifyContent: 'center', position: 'relative', padding: '30px 0px', alignItems: 'center' }}>
@@ -102,7 +102,7 @@ const MapEmployee = () => {
                 onClose={handleClose}
             >
                 <div style={{ backgroundColor: '#F8F8F8' }}>
-                    <h2 style={{ color: 'rgb(19, 32, 60)', textAlign: 'center' }}>Bul Insert</h2>
+                    <h2 style={{ color: 'rgb(19, 32, 60)', textAlign: 'center' }}>Bulk Insert</h2>
                 </div>
                 <DialogContent style={{ backgroundColor: '#F8F8F8' }}>
                     <Form

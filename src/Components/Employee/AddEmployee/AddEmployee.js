@@ -57,12 +57,15 @@ function AddEmployee() {
         event.preventDefault();
         setIsLoading(true)
         const response = await NewEmployee(firstName, lastName, email, password, jobTitle, role, salaryPerHour, hoursPerWeek, file)
+        const error = await response.json();
+        console.log('response', response)
+        console.log('error', error)
         if (response.ok) {
             setIsLoading(false)
             return navigate('/employees/details')
+        } else {
+            setError(error)
         }
-        const error = await response.json();
-        setError(error)
         setIsLoading(false)
     }
     return (

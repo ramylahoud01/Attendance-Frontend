@@ -22,7 +22,7 @@ function StyledSearchQuery({ retreiveQuery }) {
                 variant="outlined"
                 sx={{
                     backgroundColor: 'linear-gradient(120deg, #fdfbfb 0%, #f3f5f6 100%)',
-                    width: "280px",
+                    width: { sm: "280px", xs: '150px' },
                     '& .MuiOutlinedInput-root': {
                         borderRadius: '20px',
                         backgroundColor: 'white	'

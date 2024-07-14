@@ -41,7 +41,7 @@ function EntireCalendar({ query }) {
                     eventContent={eventContent}
                 />
             </div>
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 {PunchedStatus.map((item, index) =>
                     <div style={{ border: '1.5px solid #e0e0e0', display: 'flex', width: '180px', height: '30px', backgroundColor: 'white' }} key={index}>
                         <Typography style={{ backgroundColor: item.value === 'OFF' ? '#B22222' : item.value === 'late' ? '	#FFFF99' : item.value === 'LeavingEarly' ? '#87CEFA' : item.value === 'onTime' ? '#90EE90' : '#b785a7', width: '20px' }}></Typography>

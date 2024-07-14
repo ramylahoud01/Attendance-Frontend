@@ -17,8 +17,12 @@ import EntireCalendar from '../../Calendar/EntireCalendar/EntireCalendar';
 import StyledSearchQuery from '../../Styled/StyledSearchQuery';
 import FallBack from '../../FallBack/FallBack';
 import SummaryReports from '../../Reports/SummaryReports';
+import { useTheme } from '@emotion/react';
+import { useMediaQuery } from '@mui/material';
 
 export default function EntireTableSchedule() {
+    const theme = useTheme();
+    const ExtraSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     const PeriodArray = [
         " 10AM - 7PM ",
@@ -172,7 +176,7 @@ export default function EntireTableSchedule() {
             borderTop: '1px solid #e0e0e0',
             borderLeft: '1px solid #e0e0e0',
             borderRight: '1px solid #e0e0e0',
-            cursor: 'pointer'
+            cursor: 'pointer',
         },
         white: {
             backgroundColor: 'white',
@@ -182,7 +186,7 @@ export default function EntireTableSchedule() {
             borderTop: '1px solid #e0e0e0',
             borderLeft: '1px solid #e0e0e0',
             borderRight: '1px solid #e0e0e0',
-            cursor: 'pointer'
+            cursor: 'pointer',
         }
     };
 
@@ -211,30 +215,30 @@ export default function EntireTableSchedule() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }} >
                         <Typography sx={calendarButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickCalendarButtonHandler}>Calendar</Typography>
                         <Typography sx={scheduleButtonSelected ? typographyStyles.white : typographyStyles.primary} onClick={clickScheduleButtonHandler}>Schedule</Typography>
-                        <Typography sx={reportsSummarySelected ? typographyStyles.white : typographyStyles.primary} onClick={clickReportsSummaryButtonHandler}>Summary Reports</Typography>
+                        <Typography sx={reportsSummarySelected ? typographyStyles.white : typographyStyles.primary} onClick={clickReportsSummaryButtonHandler}>{!ExtraSmallScreen ? "Summary Reports" : "Reports"}</Typography>
                     </div>
-                    {calendarButtonSelected && <div style={{ marginBottom: '4px' }}>
+                    {calendarButtonSelected && !ExtraSmallScreen && <div style={{ marginBottom: '4px' }}>
                         <StyledSearchQuery retreiveQuery={retreiveQueryHandler} />
                     </div>}
                 </div>
                 {scheduleButtonSelected &&
                     <>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: 'white', borderTop: '1px solid #e0e0e0', borderLeft: '1px solid #e0e0e0', borderRight: '1px solid #e0e0e0', padding: '5px 15px', justifyContent: 'space-between' }} >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', }} >
-                                <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>Schedule :</Typography>
-                                <div style={{ width: '395px', display: 'flex', alignItems: 'center', }}>
+                        <Typography sx={{ display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: 'white', borderTop: '1px solid #e0e0e0', borderLeft: '1px solid #e0e0e0', borderRight: '1px solid #e0e0e0', padding: '5px 15px', justifyContent: { md: 'space-between', xs: 'center' } }} >
+                            <Typography variant='div' sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', gap: '20px', }} >
+                                <Typography sx={{ fontSize: '22px', fontWeight: 'bold' }}>Schedule</Typography>
+                                <Typography variant='div' sx={{ width: { sm: '395px', xs: '300px' }, display: 'flex', alignItems: 'center', }}>
                                     <DatePicker
                                         getSelectedDay={selectedDay}
                                         selectDate={selectedDate}
                                         labelFormat={"MMMM"}
                                         color={"#2F4F4F"}
                                     />
-                                </div>
-                                <div style={{ display: 'flex', gap: '3px' }}>
+                                </Typography>
+                                {!ExtraSmallScreen && <div style={{ display: 'flex', gap: '3px' }}>
                                     {PeriodArray.map((period, index) => <Button key={index} variant='contained' onClick={() => clickMultiPeriodHandler(period)} sx={{ fontSize: '12px' }}>{period}</Button>)}
-                                </div>
-                            </div>
-                        </div>
+                                </div>}
+                            </Typography>
+                        </Typography>
                         <div style={{ backgroundColor: 'white' }}>
                             <TableContainer sx={{ maxHeight: 700 }}>
                                 <Table /*stickyHeader*/ aria-label="sticky table" sx={{ borderCollapse: 'collapse' }}>
@@ -273,7 +277,7 @@ export default function EntireTableSchedule() {
                                                                     {!dateFound &&
                                                                         <div style={{ display: 'flex', marginLeft: '15px' }}>
                                                                             <Checkbox size='small' {...label} onClick={(event) => clickCheckBoxHandler(event, row.id, column.id)} />
-                                                                            <p > - - Select - - </p>
+                                                                            {!ExtraSmallScreen && <p > - - Select - - </p>}
                                                                         </div>}
                                                                     <ArrowDateAvailable onChangeDate={changePeriodUsingArrowHandler} />
                                                                 </div>

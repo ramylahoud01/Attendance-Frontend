@@ -4,14 +4,13 @@ import React from 'react';
 function AddEmployeeError({ errorMessage }) {
     return (
         <div style={{ marginTop: '10px' }}>
-            {errorMessage &&
-                errorMessage.message.split(",").map((error, index) => (
-                    <Typography key={index} variant="body1" color="error" sx={{ fontSize: '13px', fontWeight: 'bold', display: 'block' }}>
-                        {error.trim()}
-                    </Typography>
-                ))}
+            {errorMessage && errorMessage.message && errorMessage.message.split(",").map((error, index) => (
+                <Typography key={index} variant="body1" color="error" sx={{ fontSize: '13px', fontWeight: 'bold', display: 'block' }}>
+                    {error.trim()}
+                </Typography>
+            ))}
         </div>
     );
 }
 
-export default AddEmployeeError
+export default AddEmployeeError;

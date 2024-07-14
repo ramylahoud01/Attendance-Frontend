@@ -1,11 +1,11 @@
-import { Button, Stack, Typography } from '@mui/material'
+import { Button, Stack } from '@mui/material'
 import React from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 function LoginButton({ isLoading }) {
     return (
         <Stack sx={{ margin: '5px 0px 20px 0px', display: 'flex', flexDirection: 'column', gap: '5px' }} >
-            <Link to="/" style={{ textDecoration: 'none' }}>
+            {/* <Link to="/" style={{ textDecoration: 'none' }}>
                 <Typography
                     sx={{
                         fontSize: "12px",
@@ -20,7 +20,7 @@ function LoginButton({ isLoading }) {
                 >
                     Forgot password?
                 </Typography>
-            </Link>
+            </Link> */}
             <Button variant='contained' type='submit' disabled={isLoading}>
                 {isLoading ? 'Signing In' : 'Sign In'}
             </Button>
